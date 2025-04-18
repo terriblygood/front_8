@@ -195,9 +195,9 @@ function sendNotification(title, body) {
         navigator.serviceWorker.ready.then(registration => {
             registration.showNotification(title, {
                 body: body,
-                icon: './images/icons/placeholder.html',
+                icon: './images/icons/icon-192x192.html',
                 vibrate: [200, 100, 200],
-                badge: './images/icons/placeholder.html'
+                badge: './images/icons/icon-72x72.html'
             });
         });
     }

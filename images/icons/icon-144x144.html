@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Иконка 144x144</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 144px;
+            height: 144px;
+            background-color: #4A90E2;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+        .circle {
+            width: 48px;
+            height: 48px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .check {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #4A90E2;
+            font-size: 36px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        
+        .size-text {
+            position: absolute;
+            bottom: 7px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="circle">
+        <div class="check">✓</div>
+    </div>
+    <div class="size-text">144px</div>
+</body>
+</html>

@@ -9,9 +9,51 @@
     "orientation": "portrait-primary",
     "icons": [
         {
-            "src": "./images/icons/placeholder.html",
+            "src": "./images/icons/icon-72x72.html",
+            "sizes": "72x72",
+            "type": "text/html",
+            "purpose": "any"
+        },
+        {
+            "src": "./images/icons/icon-96x96.html",
+            "sizes": "96x96",
+            "type": "text/html",
+            "purpose": "any"
+        },
+        {
+            "src": "./images/icons/icon-128x128.html",
+            "sizes": "128x128",
+            "type": "text/html",
+            "purpose": "any"
+        },
+        {
+            "src": "./images/icons/icon-144x144.html",
+            "sizes": "144x144",
+            "type": "text/html",
+            "purpose": "any"
+        },
+        {
+            "src": "./images/icons/icon-152x152.html",
+            "sizes": "152x152",
+            "type": "text/html",
+            "purpose": "any"
+        },
+        {
+            "src": "./images/icons/icon-192x192.html",
+            "sizes": "192x192",
+            "type": "text/html",
+            "purpose": "any"
+        },
+        {
+            "src": "./images/icons/icon-384x384.html",
+            "sizes": "384x384",
+            "type": "text/html",
+            "purpose": "any"
+        },
+        {
+            "src": "./images/icons/icon-512x512.html",
             "sizes": "512x512",
-            "type": "image/html",
+            "type": "text/html",
             "purpose": "any"
         }
     ],
@@ -23,7 +65,7 @@
             "url": "./index.html?filter=active",
             "icons": [
                 {
-                    "src": "./images/icons/placeholder.html",
+                    "src": "./images/icons/icon-192x192.html",
                     "sizes": "192x192"
                 }
             ]
@@ -35,7 +77,7 @@
             "url": "./index.html?filter=completed",
             "icons": [
                 {
-                    "src": "./images/icons/placeholder.html",
+                    "src": "./images/icons/icon-192x192.html",
                     "sizes": "192x192"
                 }
             ]
@@ -43,9 +85,9 @@
     ],
     "screenshots": [
         {
-            "src": "./images/icons/placeholder.html",
-            "sizes": "1280x720",
-            "type": "image/html",
+            "src": "./images/icons/icon-512x512.html",
+            "sizes": "512x512",
+            "type": "text/html",
             "form_factor": "wide",
             "label": "Главный экран приложения"
         }

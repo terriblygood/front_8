@@ -6,7 +6,14 @@ const STATIC_ASSETS = [
     './js/app.js',
     './js/sw-register.js',
     './manifest.json',
-    './images/icons/placeholder.html'
+    './images/icons/icon-72x72.html',
+    './images/icons/icon-96x96.html',
+    './images/icons/icon-128x128.html',
+    './images/icons/icon-144x144.html',
+    './images/icons/icon-152x152.html',
+    './images/icons/icon-192x192.html',
+    './images/icons/icon-384x384.html',
+    './images/icons/icon-512x512.html'
 ];
 
 // Установка Service Worker и кэширование статических ресурсов
@@ -72,7 +79,20 @@ self.addEventListener('fetch', event => {
                         
                         // Для запросов к иконкам возвращаем заглушку
                         if (event.request.url.indexOf('icon-') > -1) {
-                            return caches.match('./images/icons/placeholder.html');
+                            // Поиск ближайшей иконки по размеру
+                            const iconSizes = [72, 96, 128, 144, 152, 192, 384, 512];
+                            const iconUrl = event.request.url;
+                            
+                            // Проверка на существование иконки в кэше
+                            for (const size of iconSizes) {
+                                const alternativeIcon = `./images/icons/icon-${size}x${size}.html`;
+                                if (iconUrl.includes(`${size}x${size}`)) {
+                                    return caches.match(alternativeIcon);
+                                }
+                            }
+                            
+                            // Если не найдена соответствующая иконка, возвращаем самую большую
+                            return caches.match('./images/icons/icon-512x512.html');
                         }
                     });
             })
@@ -84,8 +104,8 @@ self.addEventListener('push', event => {
     let notificationData = {
         title: 'Умный список задач',
         body: 'Новое уведомление!',
-        icon: './images/icons/placeholder.html',
-        badge: './images/icons/placeholder.html'
+        icon: './images/icons/icon-192x192.html',
+        badge: './images/icons/icon-72x72.html'
     };
 
     // Если есть данные в push-сообщении, используем их

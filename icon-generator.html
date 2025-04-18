@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор Иконок для PWA</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #4A90E2;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .icon-container {
+            text-align: center;
+        }
+        canvas {
+            display: block;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            background-color: white;
+        }
+        button {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px auto;
+            display: block;
+        }
+        button:hover {
+            background-color: #357ABD;
+        }
+        .instructions {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Генератор Иконок для PWA</h1>
+    
+    <div class="instructions">
+        <h2>Инструкция:</h2>
+        <ol>
+            <li>Ниже отображены все необходимые иконки для вашего PWA приложения</li>
+            <li>Нажмите кнопку "Скачать все иконки", чтобы загрузить их в виде ZIP-архива</li>
+            <li>Распакуйте архив и поместите иконки в папку /images/icons/ вашего проекта</li>
+            <li>Также вы можете скачать каждую иконку отдельно, нажав на соответствующую кнопку</li>
+        </ol>
+    </div>
+    
+    <button id="download-all">Скачать все иконки</button>
+    
+    <div class="container" id="icons-container"></div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <script>
+        // Размеры иконок для генерации
+        const iconSizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        // Основной цвет из нашего приложения
+        const iconBgColor = '#4A90E2';
+        const textColor = '#FFFFFF';
+        
+        // Создание и отображение иконок на странице
+        const container = document.getElementById('icons-container');
+        
+        iconSizes.forEach(size => {
+            // Создаем контейнер для иконки
+            const iconContainer = document.createElement('div');
+            iconContainer.className = 'icon-container';
+            
+            // Создаем канвас для иконки
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            canvas.id = `icon-${size}`;
+            
+            // Генерируем иконку на канвасе
+            generateIcon(canvas, size);
+            
+            // Создаем подпись с размером
+            const label = document.createElement('p');
+            label.textContent = `${size}x${size} px`;
+            
+            // Создаем кнопку для скачивания
+            const downloadBtn = document.createElement('button');
+            downloadBtn.textContent = 'Скачать';
+            downloadBtn.addEventListener('click', () => {
+                downloadIcon(canvas, size);
+            });
+            
+            // Добавляем элементы в контейнер
+            iconContainer.appendChild(canvas);
+            iconContainer.appendChild(label);
+            iconContainer.appendChild(downloadBtn);
+            
+            // Добавляем контейнер иконки на страницу
+            container.appendChild(iconContainer);
+        });
+        
+        // Функция генерации иконки
+        function generateIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            
+            // Рисуем фон
+            ctx.fillStyle = iconBgColor;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Рисуем круг в центре
+            ctx.fillStyle = '#FFFFFF';
+            ctx.beginPath();
+            ctx.arc(size / 2, size / 2, size / 3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Рисуем галочку внутри круга
+            ctx.fillStyle = iconBgColor;
+            ctx.beginPath();
+            const checkSize = size / 4;
+            const centerX = size / 2;
+            const centerY = size / 2;
+            ctx.moveTo(centerX - checkSize / 2, centerY);
+            ctx.lineTo(centerX - checkSize / 4, centerY + checkSize / 2);
+            ctx.lineTo(centerX + checkSize / 2, centerY - checkSize / 2);
+            ctx.lineWidth = size / 15;
+            ctx.strokeStyle = iconBgColor;
+            ctx.stroke();
+            
+            // Отображаем размер иконки (только для больших иконок)
+            if (size >= 128) {
+                ctx.fillStyle = textColor;
+                ctx.font = `bold ${size / 10}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText(`${size}px`, size / 2, size - size / 15);
+            }
+        }
+        
+        // Функция скачивания отдельной иконки
+        function downloadIcon(canvas, size) {
+            canvas.toBlob(function(blob) {
+                saveAs(blob, `icon-${size}x${size}.png`);
+            });
+        }
+        
+        // Функция скачивания всех иконок в архиве
+        document.getElementById('download-all').addEventListener('click', async function() {
+            const zip = new JSZip();
+            
+            // Добавляем все иконки в архив
+            for (const size of iconSizes) {
+                const canvas = document.getElementById(`icon-${size}`);
+                const blob = await new Promise(resolve => canvas.toBlob(resolve));
+                zip.file(`icon-${size}x${size}.png`, blob);
+            }
+            
+            // Генерируем и скачиваем архив
+            zip.generateAsync({type: 'blob'}).then(function(content) {
+                saveAs(content, 'pwa-icons.zip');
+            });
+        });
+    </script>
+</body>
+</html> 
